@@ -5,7 +5,15 @@ const app = express()
 const port = process.env.PORT || 5000;
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 
-app.use(cors());
+app.use(cors(
+
+  {
+    origin: ["http://localhost:5173", "https://art-and-craft-store.netlify.app/"],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    withCredentials: true,
+  }
+
+))
 app.use(express.json());
 
 
