@@ -31,12 +31,6 @@ async function run() {
       res.send(products);
     })
 
-    // app.get('/added/:id', async (req, res) => {
-    //   const id = req.params.id;
-    //   const query = { _id: new ObjectId(id) };
-    //   const result = await productCollections.findOne(query);
-    //   res.send(result);
-    // })
 
     app.get('/added/:id', async (req, res) => {
       const id = req.params.id;
