@@ -39,11 +39,24 @@ async function run() {
       res.send(result);
     });
 
+    app.get('/myProduct/:email', async (req, res) => {
+      const email = req.params.email;
+      const query = { email: email };
+      const result = await productCollections.find(query).toArray();
+      res.send(result);
+    })
+
     app.post('/added', async (req, res) => {
         const product = req.body;
         const result = await productCollections.insertOne(product);
         res.send(result);
     })
+
+
+    // card product added apis
+
+
+
 
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
