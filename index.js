@@ -53,8 +53,27 @@ async function run() {
     })
 
 
-    // card product added apis
-
+    app.put('/added/:id', async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const options = {upsert: true };
+      const update = req.body;
+      const updateDoc = {
+        $set: {
+          image: update.image,
+          item: update.item,
+          subcategory: update.subcategory,
+          shortDescription: update.shortDescription,
+          price: update.price,
+          rating: update.rating,
+          customization: update.customization,
+          processing_time: update.processing_time,
+          stockStatus: update.stockStatus
+        }
+      }
+      const result = await productCollections.updateOne(filter, updateDoc, options);
+      res.send(result);
+    });
 
 
 
