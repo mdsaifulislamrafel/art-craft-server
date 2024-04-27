@@ -8,7 +8,7 @@ const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 app.use(cors(
 
   {
-    origin: ["https://art-and-craft-store.netlify.app"],
+    origin: ["https://art-and-craft-store.netlify.app", "http://localhost:5173"],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     withCredentials: true,
   }
@@ -93,6 +93,14 @@ async function run() {
     });
 
     // Art & Craft Categories product collection api
+
+    const category = client.db('categoryDB').collection('category');
+
+
+    app.get('/category', async (req, res) => {
+      const categories = await category.find({}).toArray();
+      res.send(categories);
+    })
 
     app.get('/category/:subcategory', async (req, res) => {
       const subcategory = req.params.subcategory;
