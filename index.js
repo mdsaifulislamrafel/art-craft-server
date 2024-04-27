@@ -8,7 +8,7 @@ const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 app.use(cors(
 
   {
-    origin: ["http://localhost:5173", "https://art-and-craft-store.netlify.app/"],
+    origin: ["https://art-and-craft-store.netlify.app", "http://localhost:5173"],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     withCredentials: true,
   }
@@ -32,6 +32,7 @@ async function run() {
   try {
     //   await client.connect();
 
+  
     const productCollections = client.db('productDB').collection('product');
 
     app.get('/added', async (req, res) => {
@@ -55,16 +56,16 @@ async function run() {
     })
 
     app.post('/added', async (req, res) => {
-        const product = req.body;
-        const result = await productCollections.insertOne(product);
-        res.send(result);
+      const product = req.body;
+      const result = await productCollections.insertOne(product);
+      res.send(result);
     })
 
 
     app.put('/added/:id', async (req, res) => {
       const id = req.params.id;
       const filter = { _id: new ObjectId(id) };
-      const options = {upsert: true };
+      const options = { upsert: true };
       const update = req.body;
       const updateDoc = {
         $set: {
@@ -90,6 +91,17 @@ async function run() {
       const result = await productCollections.deleteOne(query);
       res.send(result);
     });
+
+    // Art & Craft Categories product collection api
+
+    app.get('/category/:subcategory', async (req, res) => {
+      const subcategory = req.params.subcategory;
+      const products = await productCollections.find({ subcategory: subcategory }).toArray();
+      res.send(products);
+  });
+   
+
+
 
 
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
